@@ -41,9 +41,10 @@ jobs:
 
     # Login to Azure via Azure CLI
     - name: Login via Azure CLI
-      uses: azure/login@v1
+      uses: azure/login@latest
       with:
         creds: ${{ secrets.AZURE_CREDENTIALS }}
+        
 
     # Checks that all Terraform configuration files adhere to a canonical format
     - name: Terraform Apply
