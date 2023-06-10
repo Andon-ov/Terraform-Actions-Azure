@@ -34,10 +34,6 @@ jobs:
         run: |
           curl -sL https://aka.ms/InstallAzureCLIDeb | sudo bash
 
-      # Install the azure-cli-iot-ext extension
-      - name: Install azure-cli-iot-ext extension
-        run: az extension add -n azure-cli-iot-ext
-
       # Install the latest version of Terraform CLI and configure the Terraform CLI configuration file with a Terraform Cloud user API token
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v2
