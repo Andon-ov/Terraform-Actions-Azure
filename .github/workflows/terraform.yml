@@ -100,9 +100,6 @@ jobs:
     - name: Terraform Init
       run: terraform init
 
-    - name: Azure CLI Login
-      run: az login
-
     - name: Login via Azure CLI
       uses: azure/login@v1 
       with:
