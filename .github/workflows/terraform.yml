@@ -116,7 +116,7 @@ jobs:
               "sqlManagementEndpointUrl": "https://management.core.windows.net:8443/",
               "galleryEndpointUrl": "https://gallery.azure.com/",
               "managementEndpointUrl": "https://management.core.windows.net/"
-            }
+              }
 
 
     # Checks that all Terraform configuration files adhere to a canonical format
