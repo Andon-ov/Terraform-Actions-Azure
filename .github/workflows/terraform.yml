@@ -45,8 +45,10 @@ jobs:
       # Login to Azure via Azure CLI
       - name: Login via Azure CLI
         uses: azure/login@v1
-        with:
-          creds: ${{ secrets.AZURE_CREDENTIALS }}
+        with: # Set Azure credentials secret as an input
+          credentials: ${{ secrets.AZURE_CREDENTIALS }}
+        env: # Or as an environment variable
+          credentials: ${{ secrets.AZURE_CREDENTIALS }}
 
       # Apply Terraform changes
       - name: Terraform Apply
