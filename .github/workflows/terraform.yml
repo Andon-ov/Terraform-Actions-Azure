@@ -114,17 +114,17 @@ name: Terraform
 
 on:
   push:
-    branches: ["main"]
+    branches: ['main']
+
+env:
+  ARM_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}
+  ARM_CLIENT_SECRET: ${{ secrets.AZURE_CLIENT_SECRET }}
+  ARM_SUBSCRIPTION_ID: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+  ARM_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
 
 permissions:
   contents: read
   id-token: write
-
-# env:
-#   ARM_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}
-#   ARM_CLIENT_SECRET: ${{ secrets.AZURE_CLIENT_SECRET }}
-#   ARM_SUBSCRIPTION_ID: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
-#   ARM_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
 
 jobs:
   terraform:
@@ -132,25 +132,22 @@ jobs:
     runs-on: ubuntu-latest
     environment: production
 
-    # Use the Bash shell regardless of the runner's operating system
-    defaults:
-      run:
-        shell: bash
-
     steps:
-      # Checkout the repository to the GitHub Actions runner
+      - name: Set Terraform Environment Variables
+        run: |
+          echo "export ARM_CLIENT_ID=$ARM_CLIENT_ID" >> $GITHUB_ENV
+          echo "export ARM_CLIENT_SECRET=$ARM_CLIENT_SECRET" >> $GITHUB_ENV
+          echo "export ARM_SUBSCRIPTION_ID=$ARM_SUBSCRIPTION_ID" >> $GITHUB_ENV
+
       - name: Checkout
         uses: actions/checkout@v3
 
-      # Install the latest version of Terraform CLI and configure the Terraform CLI configuration file with a Terraform Cloud user API token
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v1
 
-      # Initialize a new or existing Terraform working directory by creating initial files, loading any remote state, downloading modules, etc.
       - name: Terraform Init
         run: terraform init
 
-      # Login to Azure via Azure CLI
       - name: Az CLI login
         uses: azure/login@v1
         with:
@@ -166,7 +163,7 @@ jobs:
             az account show
             az group list
 
-      # Apply Terraform changes
       - name: Terraform Apply
         run: terraform apply -auto-approve
+
 
