@@ -102,8 +102,9 @@ jobs:
 
     # Login to Azure via Azure CLI
     - name: Login via Azure CLI
-      run: az login --service-principal --username ${{ secrets.AZURE_CLIENT_ID }} -p ${{ secrets.AZURE_CLIENT_SECRET }} --tenant ${{ secrets.AZURE_TENANT_ID }}
-
+      uses: azure/login@v1 
+      with: 
+        creds: ${{ secrets.AZURE_CREDENTIALS }}
 
 
     # Checks that all Terraform configuration files adhere to a canonical format
