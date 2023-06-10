@@ -7,7 +7,6 @@ on:
 permissions:
   contents: read
 
-
 env:
   ARM_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}
   ARM_CLIENT_SECRET: ${{ secrets.AZURE_CLIENT_SECRET }}
@@ -20,32 +19,29 @@ jobs:
     runs-on: ubuntu-latest
     environment: production
 
-    # Use the Bash shell regardless of the runner's operating system
     defaults:
       run:
         shell: bash
 
     steps:
-      # Checkout the repository to the GitHub Actions runner
       - name: Checkout
         uses: actions/checkout@v3
 
-      # Install the latest version of Terraform CLI and configure the Terraform CLI configuration file with a Terraform Cloud user API token
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v2
 
-      # Initialize a new or existing Terraform working directory by creating initial files, loading any remote state, downloading modules, etc.
+      - name: Install Azure CLI
+        run: |
+          curl -sL https://aka.ms/InstallAzureCLIDeb | sudo bash
+          az extension add -n azure-cli-iot-ext
+
       - name: Terraform Init
         run: terraform init
 
-      # Login to Azure via Azure CLI
-      - name: Login via Azure CLI
+      - name: Az CLI login
         uses: azure/login@v1
         with:
           creds: ${{ secrets.AZURE_CREDENTIALS }}
 
-
-
-      # Apply Terraform changes
       - name: Terraform Apply
         run: terraform apply -auto-approve
