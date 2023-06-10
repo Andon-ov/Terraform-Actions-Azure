@@ -90,9 +90,12 @@ jobs:
 
       # Login to Azure via Azure CLI
       - name: Login via Azure CLI
-        uses: azure/login@v1
+      - uses: azure/login@v1
         with:
           creds: ${{ secrets.AZURE_CREDENTIALS }}
+    
+      - run: |
+          az webapp list --query "[?state=='Running']"
        
 
 
