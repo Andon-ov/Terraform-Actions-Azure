@@ -100,7 +100,9 @@ jobs:
     - name: Terraform Init
       run: terraform init
 
-    # Login to Azure via Azure CLI
+    - name: Azure CLI Login
+      run: az login
+
     - name: Login via Azure CLI
       uses: azure/login@v1 
       with:
@@ -115,6 +117,7 @@ jobs:
         inlineScript: |
           az account show
           az group list
+
 
 
     # Checks that all Terraform configuration files adhere to a canonical format
